@@ -11,6 +11,33 @@ import SwiftUI
 final class ScrumStore: ObservableObject {
     @Published var scrums: [DailyScrum] = []
 
+    static func load() async throws -> [DailyScrum] {
+        try await withCheckedThrowingContinuation({ continuation in
+            load { result in
+                switch result {
+                case let .success(scrums):
+                    continuation.resume(returning: scrums)
+                case let .failure(error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
+    @discardableResult
+    static func save(scrums: [DailyScrum]) async throws -> Int {
+        try await withCheckedThrowingContinuation({ continuation in
+            save(scrums: scrums) { result in
+                switch result {
+                case let .success(number):
+                    continuation.resume(returning: number)
+                case let .failure(error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
     static func load(completion: @escaping (Result<[DailyScrum], Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
@@ -61,3 +88,22 @@ extension ScrumStore {
             .appendingPathComponent("scrums.data")
     }
 }
+
+/*
+struct Thru<Element, Failure> where Failure: Error {
+ 
+ public func withCheckedThrowingContinuation<T>(function: String = #function, _ body: (CheckedContinuation<T, Error>) -> Void) async throws -> T
+ 
+    public init(yielding: Element.Type, throwing: Failure.Type) {
+        
+    }
+    func yield(elements: Element) -> Bool {
+        return false
+    }
+
+    func yield(throwing error: Failure) -> Bool {
+        return true
+    }
+
+}
+*/
