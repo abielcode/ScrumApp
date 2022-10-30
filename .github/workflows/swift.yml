@@ -17,8 +17,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Force XCode 11.3
-      run: sudo xcode-select -switch /Applications/Xcode_11.3.app
     - name: Build
       run: swift build -v
     - name: Run tests
