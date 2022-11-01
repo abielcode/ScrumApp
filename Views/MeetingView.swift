@@ -11,7 +11,9 @@ import AVFoundation
 struct MeetingView: View {
     @Binding var scrum: DailyScrum
     @StateObject var scrumTimer: ScrumTimer
-    
+    @StateObject var speechRecognizer = SpeechRecognizer()
+    @State private var isRecording = false
+
     private var player: AVPlayer { AVPlayer.sharedDingPlayer }
 
     var body: some View {
@@ -22,8 +24,7 @@ struct MeetingView: View {
                 MeetingHeaderView(secondsElapsed: scrumTimer.secondsElapsed,
                                   secondsRemaining: scrumTimer.secondsRemaining,
                                   theme: scrum.theme)
-                Circle()
-                    .strokeBorder(lineWidth: 24, antialiased: true)
+                MeetingTimerView(speakers: scrumTimer.speakers, theme: scrum.theme, isRecording: isRecording)
                 MeetingFooterView(speakers: scrumTimer.speakers, skipAction: scrumTimer.skipSpeaker)
             }
         }
@@ -36,12 +37,18 @@ struct MeetingView: View {
                 player.seek(to: .zero)
                 player.play()
             }
+            speechRecognizer.reset()
+            speechRecognizer.transcribe()
+            isRecording = true
             scrumTimer.startScrum()
         })
         .onDisappear(perform: {
             let history = History(date: Date(), attendees: scrum.attendees, lengthInMinutes: scrum.lengthInMinutes)
             scrum.history.append(history)
             scrumTimer.stopScrum()
+            speechRecognizer.stopTranscribing()
+            isRecording = false
+
         })
         .navigationBarTitleDisplayMode(.inline)
     }

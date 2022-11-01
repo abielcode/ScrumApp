@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DetailView: View {
     @Binding var scrum: DailyScrum
-    
     @State private var data = DailyScrum.Data()
     @State private var isPresentingEditView = false
 
@@ -57,10 +56,12 @@ struct DetailView: View {
             //History
                 Section {
                     ForEach(scrum.history) { history in
-                        HStack {
-                            Image(systemName: "calendar")
-                            Text(history.date, style: .date)
-                            Text(" \(history.lengthInMinutes) minutes ")
+                        NavigationLink(destination: HistoryView(history: history)) {
+                            HStack {
+                                Image(systemName: "calendar")
+                                Text(history.date, style: .date)
+                                Text(" \(history.lengthInMinutes) minutes ")
+                            }
                         }
                     }
                 } header: {

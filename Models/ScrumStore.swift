@@ -60,7 +60,6 @@ final class ScrumStore: ObservableObject {
         }
     }
     
-    
     static func save(scrums: [DailyScrum], completion: @escaping (Result<Int, Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
@@ -88,22 +87,3 @@ extension ScrumStore {
             .appendingPathComponent("scrums.data")
     }
 }
-
-/*
-struct Thru<Element, Failure> where Failure: Error {
- 
- public func withCheckedThrowingContinuation<T>(function: String = #function, _ body: (CheckedContinuation<T, Error>) -> Void) async throws -> T
- 
-    public init(yielding: Element.Type, throwing: Failure.Type) {
-        
-    }
-    func yield(elements: Element) -> Bool {
-        return false
-    }
-
-    func yield(throwing error: Failure) -> Bool {
-        return true
-    }
-
-}
-*/

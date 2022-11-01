@@ -40,7 +40,7 @@ struct DailyScrum: Identifiable, Codable {
 }
 
 extension DailyScrum {
-    struct Attendee: Identifiable, Codable {
+    struct Attendee: Identifiable, Codable, Equatable {
         let id: UUID
         let name: String
         
@@ -52,7 +52,7 @@ extension DailyScrum {
     
     struct Data: Equatable {
         static func == (lhs: DailyScrum.Data, rhs: DailyScrum.Data) -> Bool {
-            return lhs.title == rhs.title && lhs.lengthInMinutes == rhs.lengthInMinutes && lhs.theme == rhs.theme
+            return lhs.title == rhs.title && lhs.lengthInMinutes == rhs.lengthInMinutes && lhs.theme == rhs.theme && lhs.attendees == rhs.attendees
         }
         
         var title: String = ""
