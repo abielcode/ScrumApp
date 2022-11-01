@@ -5,19 +5,18 @@ name: Swift
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    # Checking out our code base
+    - uses: actions/checkout@v2
+
     - name: Build
       run: swift build -v
+
     - name: Run tests
       run: swift test -v
