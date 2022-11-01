@@ -1,3 +1,6 @@
+[![Swift](https://github.com/bolekhub/ScrumApp/actions/workflows/swift.yml/badge.svg?branch=main)](https://github.com/bolekhub/ScrumApp/actions/workflows/swift.yml)
+
+
 # ScrumApp
 
 This app introduce severals aspects of SuiftUI. This is an example of what can be done with it and include modifications to code provided by Apple (c). I'm currently learning about all aspects of this new way and i'm learning throught material provided by apple so the follwing notice must be keept to anyone using this code :
